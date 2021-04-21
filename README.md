@@ -2,3 +2,4 @@
 
 Conteúdo adicionado até agora:
 - Aula 01;
+- Aula 02;
