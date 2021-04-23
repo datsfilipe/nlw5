@@ -6,7 +6,7 @@ Conteúdo adicionado até agora:
 - Aula 03;
 - Aula 04;
 - Aula 05;
-- Milha extra: 
+- Milha extra;
 ```js
 Milha extra: {
 "Basicamente fiz uma operação de disconnect do client, funciona da seguinte forma: quando o cliente manda mensagem ao
