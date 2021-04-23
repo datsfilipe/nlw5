@@ -1,15 +1,15 @@
+import { Socket } from "socket.io";
 import { io } from "../http";
 import { ConnectionsService } from "../services/ConnectionsService";
 import { MessagesService } from "../services/MessagesService";
-
 
 io.on("connect", async (socket) => {
   const connectionsService = new ConnectionsService();
   const messagesService = new MessagesService();
 
-  const allConnectionsWithoutAdmin = await connectionsService.findAllWithoutAdmin();
+  const allConnectionsAvailable = await connectionsService.findAllAvailable();
 
-  io.emit("admin_list_all_users", allConnectionsWithoutAdmin);
+  io.emit("admin_list_all_users", allConnectionsAvailable);
 
   socket.on("admin_list_messages_by_user", async (params, callback) => {
     const { user_id } = params;
@@ -36,12 +36,12 @@ io.on("connect", async (socket) => {
     });
   });
 
-  socket.on("admin_user_in_support", async params => {
+  socket.on("admin_user_available", async params => {
     const { user_id } = params;
     await connectionsService.updateAdminId(user_id, socket.id);
 
-    const allConnectionsWithoutAdmin = await connectionsService.findAllWithoutAdmin();
+    const allConnectionsAvailable = await connectionsService.findAllOnline();
 
-    io.emit("admin_list_all_users", allConnectionsWithoutAdmin);
+    io.emit("admin_list_all_users", allConnectionsAvailable);
   });
 });

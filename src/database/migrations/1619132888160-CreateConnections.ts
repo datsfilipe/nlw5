@@ -27,6 +27,10 @@ export class CreateConnections1619132888160 implements MigrationInterface {
                         type: "varchar",
                     },
                     {
+                        name: "online",
+                        type: "boolean",
+                    },
+                    {
                         name: "created_at",
                         type: "timestamp",
                         default: "now()",

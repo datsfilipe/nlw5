@@ -16,7 +16,7 @@
     <div class="chat chat_support" id="chat_in_support">
       <div class="in_support_header">
         <span>Em suporte ... </span>
-        <div class="icon_close" onclick="closeChat();">
+        <div id="icon_close" class="icon_close">
           <img src="/images/close.png" />
         </div>
       </div>
@@ -82,7 +82,7 @@
         </div>
 
         <div class="button">
-          <button class="btn_cancel">Cancelar</button>
+          <button class="btn_cancel" id="cancel_chat">Cancelar</button>
           <button class="btn_start_chat" id="start_chat">Iniciar chat</button>
         </div>
       </div>
@@ -112,10 +112,6 @@
 
     function openChat() {
       chat.style.display = "block";
-    }
-
-    function closeChat() {
-      chat.style.display = "none";
     }
 
     function keyUpTextHelp(event) {

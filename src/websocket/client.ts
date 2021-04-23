@@ -6,6 +6,7 @@ import { MessagesService } from "../services/MessagesService";
 interface IParams {
   text: string
   email: string
+  online: boolean
 }
 
 io.on("connect", (socket) => {
@@ -15,7 +16,7 @@ io.on("connect", (socket) => {
 
   socket.on("client_first_access", async params => {
     const socket_id = socket.id;
-    const { text, email } = params as IParams;
+    const { text, email, online } = params as IParams;
     let user_id = null;
 
     const userExists = await usersService.findByEmail(email);
@@ -25,7 +26,8 @@ io.on("connect", (socket) => {
 
       await connectionsService.create({
         socket_id,
-        user_id: user.id
+        user_id: user.id,
+        online
       });
 
       user_id = user.id;
@@ -37,13 +39,16 @@ io.on("connect", (socket) => {
       if(!connection) {
         await connectionsService.create({
           socket_id,
-          user_id: userExists.id
+          user_id: userExists.id,
+          online
         })
       } else {
         connection.socket_id = socket_id;
         await connectionsService.create(connection);
       };
     };
+
+    await connectionsService.updateOnlineStatus(user_id, online);
 
     await messagesService.create({
       text,
@@ -54,7 +59,7 @@ io.on("connect", (socket) => {
 
     socket.emit("client_list_all_messages", allMessages);
 
-    const allUsers = await connectionsService.findAllWithoutAdmin();
+    const allUsers = await connectionsService.findAllAvailable();
 
     io.emit("admin_list_all_users", allUsers);
   });
@@ -75,5 +80,16 @@ io.on("connect", (socket) => {
       message,
       socket_id,
     });
+  });
+  socket.on("close_connection", async params => {
+    const { online, socket_id, socket_admin_id } = params;
+
+    const { user_id } = await connectionsService.findBySocketId(socket_id);
+
+    await connectionsService.updateOnlineStatus(user_id, online);
+    
+    const allConnectionsAvailable = connectionsService.findAllAvailable();
+    
+    io.to(socket_admin_id).emit("admin_list_all_users", allConnectionsAvailable);
   });
 });

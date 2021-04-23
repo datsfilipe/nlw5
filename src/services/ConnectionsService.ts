@@ -6,7 +6,8 @@ interface iConnectionCreate {
   socket_id: string
   user_id: string
   admin_id?: string
-  id?: string
+  id?: string,
+  online: boolean
 }
 
 class ConnectionsService {
@@ -17,12 +18,13 @@ class ConnectionsService {
     this.connectionsRepository = getCustomRepository(ConnectionsRepository);
   };
 
-  async create({ socket_id, user_id, admin_id, id } : iConnectionCreate) {
+  async create({ socket_id, user_id, admin_id, id, online }: iConnectionCreate) {
     const connection = this.connectionsRepository.create({
       socket_id,
       user_id,
       admin_id,
-      id
+      id,
+      online
     });
 
     await this.connectionsRepository.save(connection);
@@ -41,7 +43,26 @@ class ConnectionsService {
   async findAllWithoutAdmin() {
     const connections = await this.connectionsRepository.find({
       where: { admin_id: null },
-      relations: [ "user" ],
+      relations: ["user"],
+    });
+
+    return connections;
+  };
+
+  async findAllOnline() {
+    const connections = await this.connectionsRepository.find({
+      where: { online: true },
+      relations: ["user"],
+    });
+
+    return connections;
+  };
+
+  async findAllAvailable() {
+    const connections = await this.connectionsRepository.find({
+      where:
+      { online: true, admin_id: null },
+      relations: ["user"],
     });
 
     return connections;
@@ -57,13 +78,24 @@ class ConnectionsService {
 
   async updateAdminId(user_id: string, admin_id: string) {
     await this.connectionsRepository
-    .createQueryBuilder()
-    .update(Connection)
-    .set({admin_id})
-    .where("user_id = :user_id", {
-      user_id,
-    })
-    .execute();
+      .createQueryBuilder()
+      .update(Connection)
+      .set({ admin_id })
+      .where("user_id = :user_id", {
+        user_id,
+      })
+      .execute();
+  };
+
+  async updateOnlineStatus(user_id: string, online: boolean) {
+    await this.connectionsRepository
+      .createQueryBuilder()
+      .update(Connection)
+      .set({ online })
+      .where("user_id = :user_id", {
+        user_id
+      })
+      .execute();
   };
 };
 

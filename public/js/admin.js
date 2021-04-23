@@ -3,6 +3,8 @@ let connectionsUsers = [];
 
 socket.on("admin_list_all_users", connections => {
   connectionsUsers = connections;
+
+  console.log(connectionsUsers);
   document.getElementById("list_users").innerHTML = "";
 
   let template = document.getElementById("template").innerHTML;
@@ -32,7 +34,7 @@ function call(id) {
     user_id: connection.user_id
   }
 
-  socket.emit("admin_user_in_support", params);
+  socket.emit("admin_user_available", params);
 
   socket.emit("admin_list_messages_by_user", params, messages => {
     const divMessages = document.getElementById(`allMessages${connection.user_id}`);

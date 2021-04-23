@@ -27,6 +27,9 @@ class Connection {
   @Column()
   user_id: string
 
+  @Column()
+  online: boolean
+
   @CreateDateColumn()
   created_at: Date
 

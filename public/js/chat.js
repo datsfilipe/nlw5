@@ -1,6 +1,7 @@
 let socket_admin_id = null;
 let emailUser = null;
 let socket;
+let online = false;
 
 document.querySelector("#start_chat").addEventListener("click", (event) => {
   socket = io();
@@ -17,9 +18,11 @@ document.querySelector("#start_chat").addEventListener("click", (event) => {
   const text = document.getElementById("txt_help").value;
 
   socket.on("connect", () => {
+    online = true;
     const params = {
       email,
-      text
+      text,
+      online
     };
 
     socket.emit("client_first_access", params, (call, err) => {
@@ -81,4 +84,18 @@ document.querySelector("#send_message_button").addEventListener("click", (event)
     email: emailUser
   });
   document.getElementById("messages").innerHTML += rendered;
+});
+
+document.querySelector("#icon_close").addEventListener("click", (event) => {
+  chat_in_support.style.display = "none";
+
+  online = false;
+  socket_id = socket.id;
+  const params = {
+    socket_admin_id,
+    online,
+    socket_id,
+  };
+
+  socket.emit("close_connection", params);
 });
