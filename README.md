@@ -7,10 +7,12 @@ Conteúdo adicionado até agora:
 - Aula 04;
 - Aula 05;
 - Milha extra: 
-```
+```js
+Milha extra: {
 "Basicamente fiz uma operação de disconnect do client, funciona da seguinte forma: quando o cliente manda mensagem ao
 suporte, caso seu atributo online esteja como "false", ele atualizano banco de dados e volta a exibir ao admin (essa
 operação é automática, sem necessidade de reload na página), já quando ele fecha a caixa de mensagens seu atributo on-
 line é atualizado como "false" e ele some na lista do admin (f5 na página do admin para ver as mudanças, não sei ainda
 porque, mas por enquanto ela não atualiza automaticamente"
+}
 ```
