@@ -10,6 +10,7 @@ socket.on("admin_list_all_users", connections => {
 
   let template = document.getElementById("template").innerHTML;
   connections.forEach(connection => {
+
     const rendered = Mustache.render(template, {
       email: connection.user.email,
       id: connection.socket_id
@@ -20,7 +21,7 @@ socket.on("admin_list_all_users", connections => {
 });
 
 function call(id) {
-  const connection = connectionsUsers.find(connection => connection.socket_id === id);
+  const connection = connectionsUsers.find(connection => connection.socket_id = id);
 
   connectionInSupport.push(connection);
 

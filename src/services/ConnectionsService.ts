@@ -93,7 +93,7 @@ class ConnectionsService {
       .update(Connection)
       .set({ online })
       .where("user_id = :user_id", {
-        user_id
+        user_id,
       })
       .execute();
   };
