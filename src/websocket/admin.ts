@@ -38,6 +38,7 @@ io.on("connect", async (socket) => {
 
   socket.on("admin_user_available", async params => {
     const { user_id } = params;
+
     await connectionsService.updateAdminId(user_id, socket.id);
 
     const allConnectionsAvailable = await connectionsService.findAllOnline();

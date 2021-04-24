@@ -1,7 +1,7 @@
 let socket_admin_id = null;
 let emailUser = null;
 let socket;
-let online = false;
+let online;
 
 document.querySelector("#start_chat").addEventListener("click", (event) => {
   socket = io();

@@ -16,8 +16,10 @@ io.on("connect", (socket) => {
 
   socket.on("client_first_access", async params => {
     const socket_id = socket.id;
-    const { text, email, online } = params as IParams;
+    const { text, email } = params as IParams;
+    let { online } = params as IParams;
     let user_id = null;
+  
 
     const userExists = await usersService.findByEmail(email);
 
@@ -29,8 +31,8 @@ io.on("connect", (socket) => {
         user_id: user.id,
         online
       });
-
       user_id = user.id;
+
     } else {
       user_id = userExists.id;
 
@@ -48,8 +50,6 @@ io.on("connect", (socket) => {
       };
     };
 
-    await connectionsService.updateOnlineStatus(user_id, online);
-
     await messagesService.create({
       text,
       user_id
@@ -59,8 +59,10 @@ io.on("connect", (socket) => {
 
     socket.emit("client_list_all_messages", allMessages);
 
-    const allUsers = await connectionsService.findAllAvailable();
+    await connectionsService.updateOnlineStatus( user_id, online );
 
+    const allUsers = await connectionsService.findAllAvailable();
+    
     io.emit("admin_list_all_users", allUsers);
   });
 
@@ -82,11 +84,12 @@ io.on("connect", (socket) => {
     });
   });
   socket.on("close_connection", async params => {
-    const { online, socket_id, socket_admin_id } = params;
+    const { socket_id, socket_admin_id } = params;
+    let { online } = params;
 
     const { user_id } = await connectionsService.findBySocketId(socket_id);
 
-    await connectionsService.updateOnlineStatus(user_id, online);
+    await connectionsService.updateOnlineStatus(user_id, online );
     
     const allConnectionsAvailable = connectionsService.findAllAvailable();
     
