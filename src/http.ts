@@ -13,11 +13,11 @@ app.set("views", path.join(__dirname, "..", "public"));
 app.engine("html", require("ejs").renderFile);
 app.set("view engine", "html");
 
-app.get("/pages/client", (request, response) => {
+app.get("/", (request, response) => {
   return response.render("html/client.html");
 });
 
-app.get("/pages/admin", (request, response) => {
+app.get("/admin", (request, response) => {
   return response.render("html/admin.html");
 });
 
