@@ -11,8 +11,8 @@ const path_1 = __importDefault(require("path"));
 require("./database");
 const routes_1 = require("./routes");
 const app = express_1.default();
-app.use(express_1.default.static(path_1.default.join(__dirname, "..", "public")));
-app.set("views", path_1.default.join(__dirname, "..", "public"));
+app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
+app.set("views", path_1.default.join(__dirname, "public"));
 app.engine("html", require("ejs").renderFile);
 app.set("view engine", "html");
 app.get("/", (request, response) => {
