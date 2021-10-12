@@ -2,7 +2,7 @@
 
 ## Description
 
-An support chat app using Node, Express and websocket. 
+An realtime support chat app using Node, Express and websocket. 
 
 ## Screenshot
 
