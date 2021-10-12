@@ -128,7 +128,7 @@ body {
   border: 1px solid #cec9c9;
   max-height: 500px;
   overflow-y: scroll;
-  /* border-bottom: 0px; */
+  background-color: #fefefe;
 }
 
 .admin {
@@ -265,10 +265,12 @@ input[type="text"]:focus {
 
 .admin {
   border: 1px solid #ededed;
+  background-color: #fefefe;
   margin-top: 5px;
 }
 
 .email {
+  color: #fff;
   float: left;
   width: 350px;
 }

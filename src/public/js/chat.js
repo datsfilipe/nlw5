@@ -86,16 +86,20 @@ document.querySelector("#send_message_button").addEventListener("click", (event)
   document.getElementById("messages").innerHTML += rendered;
 });
 
-document.querySelector("#icon_close").addEventListener("click", (event) => {
-  chat_in_support.style.display = "none";
+const closeChat = () => {
+  document.getElementById("chat_help").style.display = "none";
 
   online = false;
-  socket_id = socket.id;
-  const params = {
-    socket_admin_id,
-    online,
-    socket_id,
-  };
 
-  socket.emit("close_connection", params);
-});
+  if (socket) {
+    socket_id = socket.id;
+
+    const params = {
+      socket_admin_id,
+      online,
+      socket_id,
+    };
+  
+    socket.emit("close_connection", params);
+  }
+};
