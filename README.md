@@ -1,4 +1,4 @@
-<h1 align="center">GitHub Search</h1>
+<h1 align="center">SUPPORT CHAT</h1>
 
 ## Description
 
